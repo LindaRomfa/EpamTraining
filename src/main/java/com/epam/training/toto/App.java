@@ -3,8 +3,7 @@ package com.epam.training.toto;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream.GetField;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -12,15 +11,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.epam.training.toto.domain.Hit;
 import com.epam.training.toto.domain.Outcome;
 import com.epam.training.toto.domain.Round;
 
 public class App {
-    private static final int TEMP = 14;
     private static Scanner sc = new Scanner(System.in);
     private static LocalDate in;
     private static String StrIn;
@@ -30,27 +26,27 @@ public class App {
     public static boolean Di, Oli;
 
     public static void main(String[] args) throws IOException {
-       // InputStream path = App.class.getResourceAsStream("toto.csv");
-       // System.out.println(path);
         List<Round> rounds = readRound();
 
-        System.out.println("Max prize ever:");
+        System.out.print("Max prize ever: ");
+        int MaxPrize =
+                rounds.stream().map(Round::getHits).flatMap(x -> x.stream()).mapToInt(Hit::getPrize).max().getAsInt();
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,### Ft");
+        System.out.println(decimalFormat.format(MaxPrize));
+        System.out.print ("Statistic: ");
 
-        System.out.println(
-                rounds.stream().map(Round::getHits).flatMap(x -> x.stream()).mapToInt(Hit::getPrize).max().getAsInt());
 
-        System.out.println("Statistic:");
+        DecimalFormat countFormat = new DecimalFormat("##.##");
         double allCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).count();
-
-        double count = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome._1)
+        double FirstCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome._1)
                 .count();
-        System.out.println("1team won: " + count / allCount * 100 + "%");
-        double count1 = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome._2)
+        System.out.print("1team won: " + countFormat.format(FirstCount / allCount * 100 ) + "%,");
+        double SecondCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome._2)
                 .count();
-        System.out.println("2team won: " + count1 / allCount * 100 + "%");
-        double count2 = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome.x)
+        System.out.print(" 2team won: " + countFormat.format(SecondCount / allCount * 100 ) + "%,");
+        double DrawCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome.x)
                 .count();
-        System.out.println("draw: " + count2 / allCount * 100 + "%");
+        System.out.println(" draw: " + countFormat.format(DrawCount / allCount * 100 ) + "%");
 
         /*
          * System.out.println("Hit prise sum: ");
@@ -73,7 +69,7 @@ public class App {
     }
 
     private static List<Round> readRound() throws IOException {
-        List<Round> rounds = new ArrayList<Round>();
+        List<Round> rounds = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("D:/Epam/Training/src/main/resources/toto.csv"))) {
             String nextLine;
             while ((nextLine = br.readLine()) != null) {
@@ -103,7 +99,7 @@ public class App {
         } else {
             round.setDate(LocalDate.parse("2015-01-01"));
         }
-        // Hit hozzaadasa
+        // Hit
         Hit hit = creatHit(nextLine[4], nextLine[5], 14);
         hits.add(hit);
         hit = creatHit(nextLine[6], nextLine[7], 13);
@@ -116,7 +112,7 @@ public class App {
         hits.add(hit);
         round.setHits(hits);
 
-        // outcames hozaadasa
+        // Outcomes
         for (int i = 14; i < 28; i++) {
             outcomes.add(creatOutcome(nextLine[i]));
 
@@ -157,10 +153,12 @@ public class App {
         System.out.println("Scanner:");
         System.out.print("Enter date: ");
         try {
-            in = LocalDate.parse(sc.nextLine());
+            in = LocalDate.parse(sc.nextLine(),FORMATTER);
         } catch (DateTimeParseException e) {
             System.err.println(e);
             return false;
+        } catch(Exception e){
+            System.err.println(e);
         }
         return true;
     }
@@ -171,12 +169,12 @@ public class App {
         StrIn = sc.nextLine();
         OutcomeList = Arrays.asList(StrIn.split(""));
         if (OutcomeList.size() != 14) {
-            System.out.println("Hibas bemenet!");
+            System.out.println("Incorrect input!");
             return false;
         }
         for (String o : OutcomeList) {
             if (!(o.equals("1")) && !(o.equals("2")) && !(o.equals("x"))) {
-                System.out.println("Hibas bemenet2!");
+                System.out.println("Incorrect input!");
                 return false;
             }
         }
@@ -212,7 +210,7 @@ public class App {
                 }
             }
         }else {
-            System.out.println("Hibas bemenet!");
+            System.out.println("Incorrect input!");
         }
     }
 

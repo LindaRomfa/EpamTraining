@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import com.epam.training.toto.domain.Hit;
 import com.epam.training.toto.domain.Outcome;
@@ -21,50 +22,24 @@ public class App {
     private static LocalDate in;
     private static String StrIn;
     private static int counter = 0;
-    public static List<String> OutcomeList = new ArrayList<>();
-    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.d.");
-    public static boolean Di, Oli;
+    private static List<String> OutcomeList = new ArrayList<>();
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.d.");
+    private static boolean Di, Oli;
 
     public static void main(String[] args) throws IOException {
         List<Round> rounds = readRound();
 
-        System.out.print("Max prize ever: ");
-        int MaxPrize =
-                rounds.stream().map(Round::getHits).flatMap(x -> x.stream()).mapToInt(Hit::getPrize).max().getAsInt();
-        DecimalFormat decimalFormat = new DecimalFormat("###,###,### Ft");
-        System.out.println(decimalFormat.format(MaxPrize));
-        System.out.print ("Statistic: ");
+
+        maxPrize(rounds);
+
+        statistics(rounds);
+
+         Di = DateIn();
+            Oli = OutcomeListIn();
+            sc.close();
+         HitCounter(rounds, Di, Oli);
 
 
-        DecimalFormat countFormat = new DecimalFormat("##.##");
-        double allCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).count();
-        double FirstCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome._1)
-                .count();
-        System.out.print("1team won: " + countFormat.format(FirstCount / allCount * 100 ) + "%,");
-        double SecondCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome._2)
-                .count();
-        System.out.print(" 2team won: " + countFormat.format(SecondCount / allCount * 100 ) + "%,");
-        double DrawCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome.x)
-                .count();
-        System.out.println(" draw: " + countFormat.format(DrawCount / allCount * 100 ) + "%");
-
-        /*
-         * System.out.println("Hit prise sum: ");
-         * System.out.println(rounds.parallelStream().map(Round::getHits).flatMap(x->x.
-         * stream()).mapToInt(Hit::getPrize).sum());
-         *
-         * long prize = 0; for (Round round : rounds) { List<Hit> hits =
-         * round.getHits(); for (Hit hit : hits) { prize += hit.getPrize(); } }
-         *
-         * System.out.println(prize);
-         */
-        Di = DateIn();
-        Oli = OutcomeListIn();
-        sc.close();
-        HitCounter(rounds, Di, Oli);
-
-
-        // System.out.println(rounds);
 
     }
 
@@ -184,35 +159,57 @@ public class App {
     private static void HitCounter(List<Round> rounds,boolean Di, boolean Oli) {
         int i = 0;
         if (Di && Oli) {
-            for (Round round : rounds) {
-                if (round.getDate().equals(in)) {
-                    List<Outcome> outcomes = round.getOutcomes();
+            //for (Round round : rounds) {
+                //if (round.getDate().equals(in)) {
+                  //  List<Outcome> outcomes = round.getOutcomes();
+                    List<Outcome> outcomes = rounds.stream().filter(x -> x.getDate().equals(in)).map(Round::getOutcomes)
+                            .flatMap(z -> z.stream()).collect(Collectors.toList());
                     for (Outcome outcome : outcomes) {
                         if ((OutcomeList.get(i).equals("1") && outcome.equals(Outcome._1))) {
-
                             counter++;
                         }
                         if(OutcomeList.get(i).equals("2") && outcome.equals(Outcome._2)) {
-
                             counter++;
                         }
                         if(OutcomeList.get(i++).equals("x") && outcome.equals(Outcome.x)) {
-
                             counter++;
                         }
                     }
-                    List<Hit> hits = round.getHits();
+                    List<Hit> hits = rounds.stream().filter(x -> x.getDate().equals(in)).map(Round::getHits)
+                            .flatMap(z -> z.stream()).collect(Collectors.toList());
+                    //List<Hit> hits = round.getHits();
                     for(Hit hit : hits) {
                         if(hit.getHitCount() == counter) {
                             System.out.println("Result: hits: " + hit.getHitCount() + ", amount: " + hit.getPrize() + " Ft");
                         }
                     }
-                }
-            }
+               //}
+            //}
         }else {
             System.out.println("Incorrect input!");
         }
     }
+    private static void maxPrize(List<Round> rounds){
+        System.out.print("Max prize ever: ");
+        int MaxPrize =
+                rounds.stream().map(Round::getHits).flatMap(x -> x.stream()).mapToInt(Hit::getPrize).max().getAsInt();
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,### Ft");
+        System.out.println(decimalFormat.format(MaxPrize));
+        System.out.print ("Statistic: ");
+    }
 
+    private static void statistics(List<Round> rounds){
+        DecimalFormat countFormat = new DecimalFormat("##.##");
+        double allCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).count();
+        double FirstCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome._1)
+                .count();
+        System.out.print("1team won: " + countFormat.format(FirstCount / allCount * 100 ) + "%,");
+        double SecondCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome._2)
+                .count();
+        System.out.print(" 2team won: " + countFormat.format(SecondCount / allCount * 100 ) + "%,");
+        double DrawCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome.x)
+                .count();
+        System.out.println(" draw: " + countFormat.format(DrawCount / allCount * 100 ) + "%");
+    }
 
 }

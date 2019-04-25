@@ -24,7 +24,7 @@ public class App {
     private static int counter = 0;
     private static List<String> OutcomeList = new ArrayList<>();
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.d.");
-    private static boolean Di, Oli;
+    private static boolean DateInBoolean, OutcomelistInBoolean;
 
     public static void main(String[] args) throws IOException {
         List<Round> rounds = readRound();
@@ -33,10 +33,10 @@ public class App {
 
         statistics(rounds);
 
-         Di = DateIn();
-            Oli = OutcomeListIn();
+        DateInBoolean = DateIn();
+        OutcomelistInBoolean = OutcomeListIn();
             sc.close();
-         HitCounter(rounds, Di, Oli);
+         HitCounter(rounds, DateInBoolean, OutcomelistInBoolean);
 
 
 
@@ -155,9 +155,9 @@ public class App {
         return true;
     }
 
-    private static void HitCounter(List<Round> rounds,boolean Di, boolean Oli) {
+    private static void HitCounter(List<Round> rounds,boolean DateInBoolean, boolean OutcomelistInBoolean) {
         int i = 0;
-        if (Di && Oli) {
+        if (DateInBoolean && OutcomelistInBoolean) {
                     List<Outcome> outcomes = rounds.stream().filter(x -> x.getDate().equals(in)).map(Round::getOutcomes)
                             .flatMap(z -> z.stream()).collect(Collectors.toList());
                     for (Outcome outcome : outcomes) {

@@ -196,10 +196,10 @@ public class App {
         double allCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).count();
         double FirstCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome._1)
                 .count();
-        System.out.print("1team won: " + countFormat.format(FirstCount / allCount * 100 ) + "%,");
+        System.out.print("team #1 won: " + countFormat.format(FirstCount / allCount * 100 ) + "%,");
         double SecondCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome._2)
                 .count();
-        System.out.print(" 2team won: " + countFormat.format(SecondCount / allCount * 100 ) + "%,");
+        System.out.print(" team #2 won: " + countFormat.format(SecondCount / allCount * 100 ) + "%,");
         double DrawCount = rounds.stream().map(Round::getOutcomes).flatMap(l -> l.stream()).filter(i -> i == Outcome.x)
                 .count();
         System.out.println(" draw: " + countFormat.format(DrawCount / allCount * 100 ) + "%");

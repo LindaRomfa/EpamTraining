@@ -29,7 +29,6 @@ public class App {
     public static void main(String[] args) throws IOException {
         List<Round> rounds = readRound();
 
-
         maxPrize(rounds);
 
         statistics(rounds);
@@ -159,9 +158,6 @@ public class App {
     private static void HitCounter(List<Round> rounds,boolean Di, boolean Oli) {
         int i = 0;
         if (Di && Oli) {
-            //for (Round round : rounds) {
-                //if (round.getDate().equals(in)) {
-                  //  List<Outcome> outcomes = round.getOutcomes();
                     List<Outcome> outcomes = rounds.stream().filter(x -> x.getDate().equals(in)).map(Round::getOutcomes)
                             .flatMap(z -> z.stream()).collect(Collectors.toList());
                     for (Outcome outcome : outcomes) {
@@ -177,14 +173,11 @@ public class App {
                     }
                     List<Hit> hits = rounds.stream().filter(x -> x.getDate().equals(in)).map(Round::getHits)
                             .flatMap(z -> z.stream()).collect(Collectors.toList());
-                    //List<Hit> hits = round.getHits();
                     for(Hit hit : hits) {
                         if(hit.getHitCount() == counter) {
                             System.out.println("Result: hits: " + hit.getHitCount() + ", amount: " + hit.getPrize() + " Ft");
                         }
                     }
-               //}
-            //}
         }else {
             System.out.println("Incorrect input!");
         }

@@ -9,18 +9,6 @@
     <artifactId>Epam-exercise</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>epam.training</groupId>
-                <artifactId>Epam-exercise</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

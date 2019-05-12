@@ -8,6 +8,7 @@
     <groupId>epam.training</groupId>
     <artifactId>Epam-exercise</artifactId>
     <version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
 
     <properties>

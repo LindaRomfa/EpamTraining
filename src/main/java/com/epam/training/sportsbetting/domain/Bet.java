@@ -48,4 +48,10 @@ public class Bet {
     public String toString(){
         return "Bet" + getDescription();
     }
+
+    public void creatBetData(BetType type,List<Outcome> outcomes, SportEvent event){
+        this.type = type;
+        this.outcomes = outcomes;
+        this.event = event;
+    }
 }

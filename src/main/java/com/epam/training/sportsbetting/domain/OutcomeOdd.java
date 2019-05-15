@@ -8,6 +8,22 @@ public class OutcomeOdd {
     private LocalDateTime validFrom;
     private LocalDateTime validUnit;
 
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    public LocalDateTime getValidFrom() {
+        return validFrom;
+    }
+
+    public LocalDateTime getValidUnit() {
+        return validUnit;
+    }
+
+    public Outcome getOutcome() {
+        return outcome;
+    }
+
     public OutcomeOdd(BigDecimal value, LocalDateTime validFrom, LocalDateTime validUnit) {
         this.value = value;
         this.validFrom = validFrom;

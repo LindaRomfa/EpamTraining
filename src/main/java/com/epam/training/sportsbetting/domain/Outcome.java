@@ -34,4 +34,10 @@ public class Outcome {
     public void setBet(Bet bet) {
         this.bet = bet;
     }
+
+    public void creatOutcomeData(Bet bet, List<OutcomeOdd> outcomeOdds){
+        this.bet = bet;
+        this.outcomeOdds = outcomeOdds;
+    }
+
 }

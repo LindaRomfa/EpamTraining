@@ -19,10 +19,13 @@ public class App implements IO, SportsBettingService {
     private static Scanner scanner = new Scanner(System.in);
     private List<SportEvent> sportEvents = new ArrayList<>();
     private List<Bet> bets = new ArrayList<>();
-    //private List<Outcome> outcomes = new ArrayList<>();
+    private List<Outcome> outcomes = new ArrayList<>();
     private List<OutcomeOdd> odds = new ArrayList<>();
     private List<Player> players = new ArrayList<>();
+    private List<Wager> wagers = new ArrayList<>();
+    private List<Result> results = new ArrayList<>();
     private Player usedPlayer;
+    private int bettingNumb = 1;
 
     public static void main(String[] args){
         App game = new App();
@@ -33,15 +36,15 @@ public class App implements IO, SportsBettingService {
     private void play() {
         System.out.println("Welcome!");
         System.out.println("Do you have a profile? [y/n]:");
-        String yesOrNo;
+        String existsProfile;
         boolean correctInput = false;
         do {
-             yesOrNo = scanner.nextLine();
-            if (yesOrNo.equals("n")) {
+            existsProfile = scanner.nextLine();
+            if (existsProfile.equals("n")) {
                 creatPlayer();
                 correctInput = true;
             }
-            else if (yesOrNo.equals("y")) {
+            else if (existsProfile.equals("y")) {
                 usedPlayer = findPlayer();
                 correctInput = true;
             }
@@ -50,6 +53,53 @@ public class App implements IO, SportsBettingService {
             }
         }while(!correctInput);
         printWelcomeMessage(usedPlayer);
+        doBetting();
+    }
+
+    private void doBetting() {
+        listBetting();
+        creatWagers();
+    }
+
+    private void creatWagers() {
+        String chooseNumber;
+        int intChooseNumber;
+        BigDecimal amount;
+        boolean inputNumber;
+        do{
+            inputNumber = true;
+            chooseNumber = scanner.nextLine();
+            if(chooseNumber.equals("q")){
+                inputNumber = false;
+            }else{
+                intChooseNumber = Integer.parseInt(chooseNumber);
+                if(intChooseNumber >= bettingNumb || intChooseNumber <= 0){
+                    System.out.println("Invalid bet number, please try again: ");
+                }else {
+                    amount = readWagerAmount();
+                    Wager wager = new Wager(amount, LocalDateTime.now(), false, false);
+                    wager.setCurrency(usedPlayer.getCurrency());
+                    wager.setPlayer(usedPlayer);
+                    wager.setOdd(odds.get(intChooseNumber-1));
+                    wagers.add(wager);
+                    printWagerSaved(wager);
+                    printBalance(usedPlayer);
+                    listBetting();
+                }
+            }
+        }while(inputNumber);
+    }
+
+    private void listBetting() {
+        System.out.println("What are you want to bet on? (choose a number or press q for quit)");
+        for( OutcomeOdd odd: odds){
+            System.out.println(bettingNumb + ": Sport Event: " + odd.getOutcome().getBet().getEvent().getTitle() + "(start: " +
+                    odd.getOutcome().getBet().getEvent().getStartDate() + "), Bet: " +
+                    odd.getOutcome().getBet().getDescription() + ", Outcome: " +
+                    odd.getOutcome().getDescription() + ", Actual Odd: " +
+                    odd.getValue() + ", Valid between " + odd.getValidFrom() + " and " + odd.getValidUnit());
+            bettingNumb++;
+        }
     }
 
     private void creatPlayer() {
@@ -84,17 +134,17 @@ public class App implements IO, SportsBettingService {
 
     @Override
     public List<SportEvent> findAllSportEvent() {
-        return null;
+        return sportEvents;
     }
 
     @Override
     public void saveWager(Wager wager) {
-
+        wagers.add(wager);
     }
 
     @Override
     public List<Wager> findAllWagers() {
-        return null;
+        return wagers;
     }
 
     @Override
@@ -170,7 +220,7 @@ public class App implements IO, SportsBettingService {
 
     @Override
     public void printOutcomeOdds(List<SportEvent> sportEvents) {
-        
+
     }
 
     @Override
@@ -180,11 +230,28 @@ public class App implements IO, SportsBettingService {
 
     @Override
     public BigDecimal readWagerAmount() {
+        BigDecimal amounts;
+        boolean validBalance;
+        do {
+            System.out.println("What amount do you wish to bet on it?");
+            validBalance = true;
+            amounts = new BigDecimal(scanner.nextLine());
+            if (amounts.compareTo(usedPlayer.getBalance()) > 0) {
+                printNotEnoughBalance(usedPlayer);
+                validBalance = false;
+            }else{
+                usedPlayer.setBalance(usedPlayer.getBalance().subtract(amounts));
+                return amounts;
+            }
+        }while(!validBalance);
         return null;
     }
 
     @Override
     public void printWagerSaved(Wager wager) {
+        System.out.println("Wager '" + wager.getOdd().getOutcome().getBet().getDescription() + "=" + wager.getOdd().getOutcome().getDescription() +
+        "' of " + wager.getOdd().getOutcome().getBet().getEvent().getTitle() + " [odd: " +
+                wager.getOdd().getValue() + ", amount: " + wager.getAmount() + "] saved!");
 
     }
 
@@ -201,8 +268,6 @@ public class App implements IO, SportsBettingService {
     private void creatTestData(){
         creatTestSportEvent();
         creatTestBet();
-        //creatTestOutcome();
-        creatTestOdd();
         creatTestPlayer();
     }
 
@@ -215,47 +280,69 @@ public class App implements IO, SportsBettingService {
         players.get(1).setCurrency(Currency.EUR);
     }
 
-    private void creatTestOdd() {
+    private void creatTestBet() {
         LocalDateTime startDate = LocalDateTime.parse("2000-01-01 12:00:00", DATE_TIME_FORMATTER);
         LocalDateTime endDate = LocalDateTime.parse("2020-12-12 12:00:00", DATE_TIME_FORMATTER);
-        odds.add(new OutcomeOdd(new BigDecimal(2),startDate,endDate));
-        odds.add(new OutcomeOdd(new BigDecimal(3),startDate,endDate));
+        //creat Winner bet
+        Bet winnerBet = new Bet("Winner");
+        Outcome arsenal = new Outcome("Arsenal");
+        Outcome chelsea = new Outcome("Chelsea");
+        OutcomeOdd arsenalOdd = new OutcomeOdd(new BigDecimal(2),startDate,endDate);
+        OutcomeOdd chelseaOdd = new OutcomeOdd(new BigDecimal(3),startDate,endDate);
+        arsenal.creatOutcomeData(winnerBet,creatOddList(arsenalOdd));
+        arsenalOdd.setOutcome(arsenal);
+        chelsea.creatOutcomeData(winnerBet,creatOddList(chelseaOdd));
+        chelseaOdd.setOutcome(chelsea);
+        winnerBet.creatBetData(BetType.WINNER,creatOutcomeList(arsenal,chelsea),sportEvents.get(0));
+        //creat player bet
+        Bet playerBet = new Bet("Player Oliver Giroud score");
+        Outcome one = new Outcome("1");
+        OutcomeOdd oneOdd = new OutcomeOdd(new BigDecimal(2),startDate,endDate);
+        oneOdd.setOutcome(one);
+        one.creatOutcomeData(playerBet,creatOddList(oneOdd));
+        playerBet.creatBetData(BetType.PLAYERS_SCORE,creatOutcomeList(one),sportEvents.get(0));
+        //creat goal bet
+        Bet goalBet = new Bet("Number of scored goals");
+        Outcome three = new Outcome("3");
+        OutcomeOdd threeOdd = new OutcomeOdd(new BigDecimal(3),startDate,endDate);
+        threeOdd.setOutcome(three);
+        three.creatOutcomeData(goalBet,creatOddList(threeOdd));
+        goalBet.creatBetData(BetType.GOALS,creatOutcomeList(three),sportEvents.get(0));
+        // add lists
+        outcomes.add(arsenal);
+        outcomes.add(chelsea);
+        outcomes.add(one);
+        outcomes.add(three);
+        bets.add(winnerBet);
+        bets.add(playerBet);
+        bets.add(goalBet);
+        odds.add(arsenalOdd);
+        odds.add(chelseaOdd);
+        odds.add(oneOdd);
+        odds.add(threeOdd);
     }
 
-   /* private void creatTestOutcome() {
-        outcomes.add(new Outcome("1"));
-        outcomes.add(new Outcome("3"));
-        outcomes.add(new Outcome("Arsenal"));
-        outcomes.add(new Outcome("Chelsea"));
-    }*/
-
-    private void creatTestBet() {
-        bets.add(new Bet("Winner"));
-        bets.add(new Bet("Player Oliver Giroud score"));
-        bets.add(new Bet("Number of scored goals"));
-        bets.get(0).setType(BetType.WINNER);
-        bets.get(1).setType(BetType.PLAYERS_SCORE);
-        bets.get(2).setType(BetType.GOALS);
+    private List<Outcome> creatOutcomeList(Outcome... outs){
         List<Outcome> outcomeList = new ArrayList<>();
-        outcomeList.add(new Outcome("1"));
-        outcomeList.get(0).setOutcomeOdds(odds);
-        bets.get(0).setOutcomes(outcomeList);
-        outcomeList.remove(0);
-        outcomeList.add(new Outcome("3"));
-        outcomeList.get(0).setOutcomeOdds(odds);
-        bets.get(1).setOutcomes(outcomeList);
-        outcomeList.remove(0);
-        outcomeList.add(new Outcome("Arsenal"));
-        outcomeList.add(new Outcome("Chelsea"));
-        outcomeList.get(0).setOutcomeOdds(odds);
-        outcomeList.get(1).setOutcomeOdds(odds);
-        bets.get(2).setOutcomes(outcomeList);
+        for(Outcome outcome : outs) {
+            outcomeList.add(outcome);
+        }
+        return outcomeList;
+    }
+
+    private List<OutcomeOdd> creatOddList(OutcomeOdd... odds){
+        List<OutcomeOdd> oddsList = new ArrayList<>();
+        for(OutcomeOdd odd : odds){
+            oddsList.add(odd);
+        }
+        return oddsList;
     }
 
     private void creatTestSportEvent() {
         LocalDateTime startDate = LocalDateTime.parse("2020-12-12 12:00:00", DATE_TIME_FORMATTER);
         LocalDateTime endDate = LocalDateTime.parse("2020-12-12 16:00:00", DATE_TIME_FORMATTER);
-        sportEvents.add(new FootballSportEvent("Arsenal vs Chelsea",startDate,endDate));
-        sportEvents.get(0).setBets(bets);
+        SportEvent footballEvent = new FootballSportEvent("Arsenal vs Chelsea",startDate,endDate);
+        footballEvent.setBets(bets);
+        sportEvents.add(footballEvent);
     }
 }

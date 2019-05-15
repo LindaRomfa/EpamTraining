@@ -30,18 +30,6 @@ public class OutcomeOdd {
         this.validUnit = validUnit;
     }
 
-    public void setValue(BigDecimal value) {
-        this.value = value;
-    }
-
-    public void setValidFrom(LocalDateTime validFrom) {
-        this.validFrom = validFrom;
-    }
-
-    public void setValidUnit(LocalDateTime validUnit) {
-        this.validUnit = validUnit;
-    }
-
     public void setOutcome(Outcome outcome) {
         this.outcome = outcome;
     }

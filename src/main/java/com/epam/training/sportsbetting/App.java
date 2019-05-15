@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class App implements IO, SportsBettingService {
@@ -23,9 +24,9 @@ public class App implements IO, SportsBettingService {
     private List<OutcomeOdd> odds = new ArrayList<>();
     private List<Player> players = new ArrayList<>();
     private List<Wager> wagers = new ArrayList<>();
-    private List<Result> results = new ArrayList<>();
+    private Result result = new Result();
     private Player usedPlayer;
-    private int bettingNumb = 1;
+    private int bettingNumber = 1;
 
     public static void main(String[] args){
         App game = new App();
@@ -54,6 +55,18 @@ public class App implements IO, SportsBettingService {
         }while(!correctInput);
         printWelcomeMessage(usedPlayer);
         doBetting();
+        calculateResults();
+        printResults();
+    }
+
+    private void printResults() {
+        System.out.println("Results:");
+        for(Wager wager : wagers){
+            System.out.println("Wager '" + wager.getOdd().getOutcome().getBet().getDescription() + "=" + wager.getOdd().getOutcome().getDescription() +
+                    "' of " + wager.getOdd().getOutcome().getBet().getEvent().getTitle() + " [odd: " +
+                    wager.getOdd().getValue() + ", amount: " + wager.getAmount() + "], Win: " + wager.isWin());
+        }
+        System.out.println("Your new balance is " + usedPlayer.getBalance() + " " + usedPlayer.getCurrency());
     }
 
     private void doBetting() {
@@ -73,14 +86,12 @@ public class App implements IO, SportsBettingService {
                 inputNumber = false;
             }else{
                 intChooseNumber = Integer.parseInt(chooseNumber);
-                if(intChooseNumber >= bettingNumb || intChooseNumber <= 0){
+                if(intChooseNumber >= bettingNumber || intChooseNumber <= 0){
                     System.out.println("Invalid bet number, please try again: ");
                 }else {
                     amount = readWagerAmount();
                     Wager wager = new Wager(amount, LocalDateTime.now(), false, false);
-                    wager.setCurrency(usedPlayer.getCurrency());
-                    wager.setPlayer(usedPlayer);
-                    wager.setOdd(odds.get(intChooseNumber-1));
+                    wager.creatWagerData(usedPlayer.getCurrency(),usedPlayer,odds.get(intChooseNumber-1));
                     wagers.add(wager);
                     printWagerSaved(wager);
                     printBalance(usedPlayer);
@@ -93,12 +104,12 @@ public class App implements IO, SportsBettingService {
     private void listBetting() {
         System.out.println("What are you want to bet on? (choose a number or press q for quit)");
         for( OutcomeOdd odd: odds){
-            System.out.println(bettingNumb + ": Sport Event: " + odd.getOutcome().getBet().getEvent().getTitle() + "(start: " +
+            System.out.println(bettingNumber + ": Sport Event: " + odd.getOutcome().getBet().getEvent().getTitle() + "(start: " +
                     odd.getOutcome().getBet().getEvent().getStartDate() + "), Bet: " +
                     odd.getOutcome().getBet().getDescription() + ", Outcome: " +
                     odd.getOutcome().getDescription() + ", Actual Odd: " +
                     odd.getValue() + ", Valid between " + odd.getValidFrom() + " and " + odd.getValidUnit());
-            bettingNumb++;
+            bettingNumber++;
         }
     }
 
@@ -149,7 +160,21 @@ public class App implements IO, SportsBettingService {
 
     @Override
     public void calculateResults() {
-
+        int randomNumber;
+        Random rand = new Random();
+        List<Outcome> winnerOutcomes = new ArrayList<>();
+        for(Wager wager : wagers){
+            if(wager.isProcessed() == false){
+                randomNumber = rand.nextInt(2);
+                if(randomNumber == 1){
+                    wager.setWin(true);
+                    winnerOutcomes.add(wager.getOdd().getOutcome());
+                    usedPlayer.setBalance(usedPlayer.getBalance().add(wager.getAmount().multiply(wager.getOdd().getValue())));
+                }
+                wager.setProcessed(true);
+            }
+        }
+        result.setWinnerOutcome(winnerOutcomes);
     }
 
     @Override
@@ -343,6 +368,7 @@ public class App implements IO, SportsBettingService {
         LocalDateTime endDate = LocalDateTime.parse("2020-12-12 16:00:00", DATE_TIME_FORMATTER);
         SportEvent footballEvent = new FootballSportEvent("Arsenal vs Chelsea",startDate,endDate);
         footballEvent.setBets(bets);
+        footballEvent.setResult(result);
         sportEvents.add(footballEvent);
     }
 }

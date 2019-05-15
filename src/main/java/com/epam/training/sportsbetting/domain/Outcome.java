@@ -11,28 +11,12 @@ public class Outcome {
         return description;
     }
 
-    public List<OutcomeOdd> getOutcomeOdds() {
-        return outcomeOdds;
-    }
-
     public Bet getBet() {
         return bet;
     }
 
     public Outcome(String description) {
         this.description = description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setOutcomeOdds(List<OutcomeOdd> outcomeOdds) {
-        this.outcomeOdds = outcomeOdds;
-    }
-
-    public void setBet(Bet bet) {
-        this.bet = bet;
     }
 
     public void creatOutcomeData(Bet bet, List<OutcomeOdd> outcomeOdds){

@@ -18,10 +18,6 @@ public abstract class SportEvent {
         this.endDate = endDate;
     }
 
-    public List<Bet> getBets() {
-        return bets;
-    }
-
     public void setBets(List<Bet> bets) {
         this.bets = bets;
     }
@@ -32,22 +28,6 @@ public abstract class SportEvent {
 
     public LocalDateTime getStartDate() {
         return startDate;
-    }
-
-    public LocalDateTime getEndDate() {
-        return endDate;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
     }
 
     public void setResult(Result result) {

@@ -38,16 +38,8 @@ public class Player extends User{
         this.birth = birth;
     }
 
-    public void setAccountNumber(Integer accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
-    }
-
-    public void setBirth(LocalDate birth) {
-        this.birth = birth;
     }
 
     public void setCurrency(Currency currency) {

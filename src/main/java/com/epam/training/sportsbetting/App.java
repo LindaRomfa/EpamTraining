@@ -26,7 +26,7 @@ public class App implements IO, SportsBettingService {
     private List<Wager> wagers = new ArrayList<>();
     private Result result = new Result();
     private Player usedPlayer;
-    private int bettingNumber = 1;
+    private int bettingNumber;
 
     public static void main(String[] args){
         App game = new App();
@@ -102,14 +102,15 @@ public class App implements IO, SportsBettingService {
     }
 
     private void listBetting() {
+        bettingNumber = 0;
         System.out.println("What are you want to bet on? (choose a number or press q for quit)");
         for( OutcomeOdd odd: odds){
+            bettingNumber++;
             System.out.println(bettingNumber + ": Sport Event: " + odd.getOutcome().getBet().getEvent().getTitle() + "(start: " +
                     odd.getOutcome().getBet().getEvent().getStartDate() + "), Bet: " +
                     odd.getOutcome().getBet().getDescription() + ", Outcome: " +
                     odd.getOutcome().getDescription() + ", Actual Odd: " +
                     odd.getValue() + ", Valid between " + odd.getValidFrom() + " and " + odd.getValidUnit());
-            bettingNumber++;
         }
     }
 
@@ -125,7 +126,6 @@ public class App implements IO, SportsBettingService {
 
     @Override
     public Player findPlayer() {
-        Boolean validName = false;
         String playerName;
         String password;
         do {
@@ -139,8 +139,7 @@ public class App implements IO, SportsBettingService {
                 }
             }
             System.out.println("Wrong name or password, please try again:");
-        }while(!validName);
-        return null;
+        }while(true);
     }
 
     @Override
@@ -256,20 +255,16 @@ public class App implements IO, SportsBettingService {
     @Override
     public BigDecimal readWagerAmount() {
         BigDecimal amounts;
-        boolean validBalance;
         do {
             System.out.println("What amount do you wish to bet on it?");
-            validBalance = true;
             amounts = new BigDecimal(scanner.nextLine());
             if (amounts.compareTo(usedPlayer.getBalance()) > 0) {
                 printNotEnoughBalance(usedPlayer);
-                validBalance = false;
             }else{
                 usedPlayer.setBalance(usedPlayer.getBalance().subtract(amounts));
                 return amounts;
             }
-        }while(!validBalance);
-        return null;
+        }while(true);
     }
 
     @Override
@@ -334,17 +329,25 @@ public class App implements IO, SportsBettingService {
         three.creatOutcomeData(goalBet,creatOddList(threeOdd));
         goalBet.creatBetData(BetType.GOALS,creatOutcomeList(three),sportEvents.get(0));
         // add lists
-        outcomes.add(arsenal);
-        outcomes.add(chelsea);
-        outcomes.add(one);
-        outcomes.add(three);
-        bets.add(winnerBet);
-        bets.add(playerBet);
-        bets.add(goalBet);
-        odds.add(arsenalOdd);
-        odds.add(chelseaOdd);
-        odds.add(oneOdd);
-        odds.add(threeOdd);
+        outcomeAdd(arsenal,chelsea,one,three);
+        betAdd(winnerBet,playerBet,goalBet);
+        oddAdd(arsenalOdd,chelseaOdd,oneOdd,threeOdd);
+    }
+
+    private void outcomeAdd(Outcome... outs){
+        for(Outcome outcome : outs) {
+            outcomes.add(outcome);
+        }
+    }
+    private void betAdd(Bet... addBet){
+        for(Bet bet : addBet) {
+            bets.add(bet);
+        }
+    }
+    private void oddAdd(OutcomeOdd... outOdds){
+        for(OutcomeOdd odd : outOdds) {
+            odds.add(odd);
+        }
     }
 
     private List<Outcome> creatOutcomeList(Outcome... outs){

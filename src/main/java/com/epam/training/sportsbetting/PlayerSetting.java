@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 public class PlayerSetting {
     private static Scanner scanner = new Scanner(System.in);
+
     private static final DateTimeFormatter LOCAL_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
     public static Player readPlayerData() {

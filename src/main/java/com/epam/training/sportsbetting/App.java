@@ -83,7 +83,7 @@ public class App implements IO, SportsBettingService {
         int intChooseNumber;
         BigDecimal amount;
         boolean inputNumber;
-        
+
         do{
             inputNumber = true;
             chooseNumber = scanner.nextLine();

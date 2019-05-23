@@ -1,7 +1,6 @@
 package com.epam.training.sportsbetting;
 
 
-import com.epam.training.sportsbetting.builder.PlayerBuilder;
 import com.epam.training.sportsbetting.domain.*;
 import com.epam.training.sportsbetting.domain.Currency;
 import com.epam.training.sportsbetting.service.SportsBettingService;
@@ -11,7 +10,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class App implements IO, SportsBettingService {
@@ -55,6 +53,7 @@ public class App implements IO, SportsBettingService {
                 System.out.println("Incorrect output, please try again! [y/n]:");
             }
         }while(!correctInput);
+
         Prints.printWelcomeMessage(usedPlayer);
         doBetting();
         calculateResults();
@@ -84,6 +83,7 @@ public class App implements IO, SportsBettingService {
         int intChooseNumber;
         BigDecimal amount;
         boolean inputNumber;
+        
         do{
             inputNumber = true;
             chooseNumber = scanner.nextLine();
@@ -199,6 +199,7 @@ public class App implements IO, SportsBettingService {
     private void creatTestSportEvent() {
         LocalDateTime startDate = LocalDateTime.parse("2020-12-12 12:00:00", DATE_TIME_FORMATTER);
         LocalDateTime endDate = LocalDateTime.parse("2020-12-12 16:00:00", DATE_TIME_FORMATTER);
+
         SportEvent footballEvent = new FootballSportEvent("Arsenal vs Chelsea",startDate,endDate);
         footballEvent.setBets(bets);
         footballEvent.setResult(result);

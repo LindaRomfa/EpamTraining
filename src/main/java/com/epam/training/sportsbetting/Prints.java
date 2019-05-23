@@ -5,6 +5,7 @@ import com.epam.training.sportsbetting.domain.*;
 import java.util.List;
 
 public class Prints {
+
     public static void printNotEnoughBalance(Player player) {
         System.out.println("You don't have enought money, your balance is " + player.getBalance() + " " + player.getCurrency());
     }

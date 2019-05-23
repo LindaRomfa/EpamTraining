@@ -12,12 +12,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class PlayerSetting {
+
     private static Scanner scanner = new Scanner(System.in);
     private static final DateTimeFormatter LOCAL_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+
     public static Player readPlayerData() {
-        boolean correctInput;
-        PlayerBuilder playerBuilder = new PlayerBuilder();
-        Player player;
         System.out.println("Create new account!");
         System.out.println("Please, enter the datas: ");
 
@@ -35,6 +34,8 @@ public class PlayerSetting {
 
         System.out.println("Birthday: [yyyy.MM.dd]");
         LocalDate birth = null;
+
+        boolean correctInput;
         do{
             correctInput = true;
             try {
@@ -57,6 +58,8 @@ public class PlayerSetting {
         }while (!correctInput);
 
         //builder test
+        PlayerBuilder playerBuilder = new PlayerBuilder();
+        Player player;
         player = playerBuilder.setName(name).setAccountNumber(accountNumber).setBalance(new BigDecimal(balance))
                 .setEmail(email).setPassword(password).setBirth(birth).getPlayer();
 
@@ -76,17 +79,16 @@ public class PlayerSetting {
             }
         }while(!correctInput);
         System.out.println("Thank you! :)");
+
         return player;
     }
 
     public static Player findPlayer(List<Player> players) {
-        String playerName;
-        String password;
         do {
             System.out.println("What is your name?");
-            playerName = scanner.nextLine();
+            String playerName = scanner.nextLine();
             System.out.println("Password: ");
-            password = scanner.nextLine();
+            String password = scanner.nextLine();
             for (Player player : players) {
                 if (player.getName().equals(playerName) && player.getPassword().equals(password)) {
                     return player;

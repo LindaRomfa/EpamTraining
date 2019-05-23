@@ -9,6 +9,15 @@ public class Bet {
     private BetType type;
     private List<Outcome> outcomes = new ArrayList<>();
 
+    public Bet(String description, SportEvent event, BetType type, List<Outcome> outcomes) {
+        this.description = description;
+        this.event = event;
+        this.type = type;
+        this.outcomes = outcomes;
+    }
+
+    public Bet(){}
+
     public SportEvent getEvent() {
         return event;
     }

@@ -9,8 +9,5 @@ import java.util.List;
 public interface SportsBettingService {
     void savePlayer(Player player);
     Player findPlayer();
-    List<SportEvent> findAllSportEvent();
-    void saveWager(Wager wager);
-    List<Wager> findAllWagers();
     void calculateResults();
 }

@@ -12,6 +12,13 @@ public class Wager {
     private Player player;
     private Currency currency;
 
+    public Wager(BigDecimal amount, LocalDateTime timestampCreated, boolean processed, boolean win) {
+        this.amount = amount;
+        this.timestampCreated = timestampCreated;
+        this.processed = processed;
+        this.win = win;
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }
@@ -26,13 +33,6 @@ public class Wager {
 
     public OutcomeOdd getOdd() {
         return odd;
-    }
-
-    public Wager(BigDecimal amount, LocalDateTime timestampCreated, boolean processed, boolean win) {
-        this.amount = amount;
-        this.timestampCreated = timestampCreated;
-        this.processed = processed;
-        this.win = win;
     }
 
     public void setProcessed(boolean processed) {

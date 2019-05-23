@@ -11,6 +11,13 @@ public abstract class SportEvent {
     private List<Bet> bets = new ArrayList<>();
     private Result result;
 
+    public SportEvent(String title, LocalDateTime startDate, LocalDateTime endDate, List<Bet> bets, Result result) {
+        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.bets = bets;
+        this.result = result;
+    }
 
     public SportEvent(String title, LocalDateTime startDate, LocalDateTime endDate){
         this.title = title;

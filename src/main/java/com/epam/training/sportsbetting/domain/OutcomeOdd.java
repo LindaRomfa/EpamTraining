@@ -7,6 +7,22 @@ public class OutcomeOdd {
     private BigDecimal value;
     private LocalDateTime validFrom;
     private LocalDateTime validUnit;
+    private Outcome outcome;
+
+    public OutcomeOdd(BigDecimal value, LocalDateTime validFrom, LocalDateTime validUnit) {
+        this.value = value;
+        this.validFrom = validFrom;
+        this.validUnit = validUnit;
+    }
+
+    public OutcomeOdd(BigDecimal value, LocalDateTime validFrom, LocalDateTime validUnit, Outcome outcome) {
+        this.value = value;
+        this.validFrom = validFrom;
+        this.validUnit = validUnit;
+        this.outcome = outcome;
+    }
+
+    public OutcomeOdd(){}
 
     public BigDecimal getValue() {
         return value;
@@ -24,15 +40,7 @@ public class OutcomeOdd {
         return outcome;
     }
 
-    public OutcomeOdd(BigDecimal value, LocalDateTime validFrom, LocalDateTime validUnit) {
-        this.value = value;
-        this.validFrom = validFrom;
-        this.validUnit = validUnit;
-    }
-
     public void setOutcome(Outcome outcome) {
         this.outcome = outcome;
     }
-
-    private Outcome outcome;
 }

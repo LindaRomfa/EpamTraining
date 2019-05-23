@@ -7,6 +7,12 @@ public class Outcome {
     private List<OutcomeOdd> outcomeOdds;
     private Bet bet;
 
+    public Outcome(String description, List<OutcomeOdd> outcomeOdds, Bet bet) {
+        this.description = description;
+        this.outcomeOdds = outcomeOdds;
+        this.bet = bet;
+    }
+
     public String getDescription() {
         return description;
     }

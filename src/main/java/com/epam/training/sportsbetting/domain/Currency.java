@@ -6,7 +6,8 @@ public enum Currency {
     USD("USD");
 
     private String value;
-    Currency(String value){
+
+     Currency(String value){
         this.value = value;
     }
 }

@@ -18,6 +18,10 @@ public class Bet {
 
     public Bet(){}
 
+    public void setOutcomes(List<Outcome> outcomes) {
+        this.outcomes = outcomes;
+    }
+
     public SportEvent getEvent() {
         return event;
     }

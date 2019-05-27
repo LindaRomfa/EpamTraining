@@ -50,7 +50,7 @@ public class PlayerBuilder {
             return this;
         }
 
-        public Player getPlayer(){
+        public Player builder(){
             return new Player(email,password,name,accountNumber,balance,birth,currency);
         }
 }

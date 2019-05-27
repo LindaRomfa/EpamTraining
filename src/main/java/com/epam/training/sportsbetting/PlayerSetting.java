@@ -45,10 +45,10 @@ public class PlayerSetting {
 
         //builder test
         return new PlayerBuilder().setName(name).setAccountNumber(accountNumber).setBalance(new BigDecimal(balance))
-                .setEmail(email).setPassword(password).setBirth(birth).setCurrency(currency).getPlayer();
+                .setEmail(email).setPassword(password).setBirth(birth).setCurrency(currency).builder();
     }
 
-    private static Currency addCurrency(){
+    private static Currency addCurrency() {
         do {
             String currency = scanner.nextLine();
             if (currency.equals("HUF")) {
@@ -57,31 +57,31 @@ public class PlayerSetting {
                 return Currency.EUR;
             } else if (currency.equals("USD")) {
                 return Currency.USD;
-            }else{
+            } else {
                 System.out.println("Invalid currency, please try again!");
             }
-        }while(true);
+        } while (true);
     }
 
     private static int addBalance() {
         do {
             int balance = Integer.parseInt(scanner.nextLine());
-            if(balance <= 0){
+            if (balance <= 0) {
                 System.out.println("Too small number, please try again!");
-            }else{
+            } else {
                 return balance;
             }
-        }while (true);
+        } while (true);
     }
 
-    private static LocalDate addBirth(){
-        do{
+    private static LocalDate addBirth() {
+        do {
             try {
                 return LocalDate.parse(scanner.nextLine(), LOCAL_DATE_FORMATTER);
-            }catch(DateTimeParseException e){
+            } catch (DateTimeParseException e) {
                 System.out.println("Wrong format, please try again!");
             }
-        }while(true);
+        } while (true);
     }
 
     public static Player findPlayer(List<Player> players) {
@@ -96,6 +96,6 @@ public class PlayerSetting {
                 }
             }
             System.out.println("Wrong name or password, please try again:");
-        }while(true);
+        } while (true);
     }
 }

@@ -26,7 +26,7 @@ public class OutcomeBuilder {
             return this;
         }
 
-        public Outcome getOutcome(){
+        public Outcome builder(){
             return new Outcome(description,outcomeOdds,bet);
         }
 }

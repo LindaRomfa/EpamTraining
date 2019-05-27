@@ -41,7 +41,7 @@ public class FootballSportEventBuilder {
             return this;
         }
 
-        public FootballSportEvent getFootball(){
+        public FootballSportEvent builder(){
             return new FootballSportEvent(title,startDate,endDate,bets,result);
         }
 }

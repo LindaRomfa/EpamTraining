@@ -32,7 +32,7 @@ public class OutcomeOddBuilder {
         return this;
     }
 
-    public OutcomeOdd getOutcomeOdd(){
+    public OutcomeOdd builder(){
         return new OutcomeOdd(value,validFrom,validUnit,outcome);
     }
 

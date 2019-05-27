@@ -19,7 +19,7 @@ public abstract class SportEvent {
         this.result = result;
     }
 
-    public SportEvent(String title, LocalDateTime startDate, LocalDateTime endDate){
+    public SportEvent(String title, LocalDateTime startDate, LocalDateTime endDate) {
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -41,7 +41,7 @@ public abstract class SportEvent {
         this.result = result;
     }
 
-    public String toString(){
+    public String toString() {
         return "Sport event:" + getTitle() + " (start: " + getStartDate() + ")";
     }
 }

@@ -13,6 +13,10 @@ public class Outcome {
         this.bet = bet;
     }
 
+    public void setOutcomeOdds(List<OutcomeOdd> outcomeOdds) {
+        this.outcomeOdds = outcomeOdds;
+    }
+
     public String getDescription() {
         return description;
     }

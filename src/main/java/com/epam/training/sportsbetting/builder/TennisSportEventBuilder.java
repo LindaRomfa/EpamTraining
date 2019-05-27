@@ -40,7 +40,7 @@ public class TennisSportEventBuilder {
         return this;
     }
 
-    public TennisSportEvent getFootball(){
+    public TennisSportEvent builder(){
         return new TennisSportEvent(title,startDate,endDate,bets,result);
     }
 }

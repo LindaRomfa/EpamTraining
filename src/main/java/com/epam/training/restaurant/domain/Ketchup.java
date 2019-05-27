@@ -8,10 +8,11 @@ public class Ketchup extends FoodExtraDecorator {
 
     @Override
     public double calculateHappiness(Client client) {
-        return client.getHappiness() * 2;
+        super.calculateHappiness(client);
+        return super.calculateHappiness(client)*2;
     }
 
     public String toString() {
-        return "extra = KETCHUP";
+        return super.toString() + " extra = KETCHUP ";
     }
 }

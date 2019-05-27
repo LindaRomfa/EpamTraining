@@ -5,4 +5,9 @@ public class Chips implements Food{
     public double calculateHappiness(Client client) {
         return client.getHappiness()*1.05;
     }
+
+    @Override
+    public String toString() {
+        return "Chips ";
+    }
 }

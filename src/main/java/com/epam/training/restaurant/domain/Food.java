@@ -1,5 +1,6 @@
 package com.epam.training.restaurant.domain;
 
 public interface Food {
-    public double calculateHappiness(Client client);
+    double calculateHappiness(Client client);
+
 }

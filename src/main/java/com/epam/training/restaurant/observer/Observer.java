@@ -1,4 +1,6 @@
 package com.epam.training.restaurant.observer;
 
-public class Observer {
+public interface Observer {
+
+    public void update(Observable obj);
 }

@@ -19,7 +19,11 @@ public class Order {
         return extras;
     }
 
-    public String toString(){
-        return "";
+    @Override
+    public String toString() {
+        return "Order[" +
+                "food='" + food + '\'' +
+                ", extras=" + extras +
+                ']';
     }
 }

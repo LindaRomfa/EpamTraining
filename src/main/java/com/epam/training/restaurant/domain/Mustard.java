@@ -1,6 +1,6 @@
 package com.epam.training.restaurant.domain;
 
-public class Mustard extends FoodExtraDecorator{
+public class Mustard extends FoodExtraDecorator {
 
     public Mustard(Food food) {
         super(food);
@@ -8,10 +8,12 @@ public class Mustard extends FoodExtraDecorator{
 
     @Override
     public double calculateHappiness(Client client) {
+        super.calculateHappiness(client);
         return client.getHappiness()+1;
     }
 
-    public String toString(){
-        return "extra = MUSTARD";
+    public String toString() {
+
+        return super.toString() + " extra = MUSTARD ";
     }
 }

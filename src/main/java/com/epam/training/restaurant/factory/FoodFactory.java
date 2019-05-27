@@ -1,9 +1,6 @@
 package com.epam.training.restaurant.factory;
 
-import com.epam.training.restaurant.domain.Chips;
-import com.epam.training.restaurant.domain.Food;
-import com.epam.training.restaurant.domain.Hotdog;
-import com.epam.training.restaurant.domain.Order;
+import com.epam.training.restaurant.domain.*;
 
 import java.util.List;
 
@@ -16,11 +13,16 @@ public class FoodFactory {
     public FoodFactory() {
     }
 
-    public Food createFood(Order order) {
-        return addExtras(createMainFood(order.getFood()), order.getExtras());
+    public static Food createFood(Order order) {
+
+        System.out.format("FoodFactory: Preparing food, order: %s\n", order);
+        Food newFood = addExtras(createMainFood(order.getFood()), order.getExtras());
+        System.out.println("FoodFactory: food prepared:, food: " + newFood);
+        return newFood;
     }
 
-    public Food createMainFood(String type) {
+    public static Food createMainFood(String type) {
+
         if (type.equalsIgnoreCase(HOTDOG)) {
             return new Hotdog();
         } else if (type.equalsIgnoreCase(CHIPS)) {
@@ -29,8 +31,17 @@ public class FoodFactory {
         return null;
     }
 
-    public Food addExtras(Food food, List<String> extras) {
-        return null;
+    public static Food addExtras(Food food, List<String> extras) {
+        if (extras.size() != 0) {
+            if (extras.get(extras.size() - 1).equalsIgnoreCase(MUSTARD)) {
+                extras.remove(extras.size() - 1);
+                return new Mustard(addExtras(food, extras));
+            } else if (extras.get(extras.size() - 1).equalsIgnoreCase(KETCHUP)) {
+                extras.remove(extras.size() - 1);
+                return new Ketchup(addExtras(food, extras));
+            }
+        }
+        return food;
     }
 
 }

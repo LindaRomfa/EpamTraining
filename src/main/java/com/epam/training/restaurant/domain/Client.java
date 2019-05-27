@@ -1,9 +1,8 @@
 package com.epam.training.restaurant.domain;
 
-import com.epam.training.restaurant.observer.Observable;
 import com.epam.training.restaurant.observer.Observer;
 
-public class Client {
+public class Client implements Observer {
     private String name;
     private double happiness;
 
@@ -16,14 +15,11 @@ public class Client {
         return happiness;
     }
 
-    public void consume(Food food){
+    public void consume(Food food) {
         this.happiness = food.calculateHappiness(this);
-        System.out.println("Client: I'm eating");
+        System.out.println("Client: Csam csam nyam nyam");
     }
 
-    public void update(Food food){
-
-    }
 
     @Override
     public String toString() {
@@ -31,5 +27,13 @@ public class Client {
                 "name='" + name + '\'' +
                 ", happiness=" + happiness +
                 ']';
+    }
+
+    @Override
+    public void update(Food food) {
+        System.out.format("Client: Starting to eat food, client: %s, food: %s\n", this, food);
+        this.consume(food);
+        System.out.println("Client: Food eaten, client: " + this);
+
     }
 }

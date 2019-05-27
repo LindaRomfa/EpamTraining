@@ -1,6 +1,7 @@
 package com.epam.training.restaurant.observer;
 
-public interface Observer {
+import com.epam.training.restaurant.domain.Food;
 
-    public void update(Observable obj);
+public interface Observer {
+     void update(Food food);
 }

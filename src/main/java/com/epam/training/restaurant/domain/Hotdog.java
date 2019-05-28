@@ -2,10 +2,20 @@ package com.epam.training.restaurant.domain;
 
 public class Hotdog implements Food {
 
-    private int product;
+    private double effect = 2;
+
+    public double getEffect() {
+        return effect;
+    }
+
+    @Override
+    public void setEffect(double effect) {
+        this.effect = effect;
+    }
+
     @Override
     public double calculateHappiness(Client client) {
-        return client.getHappiness() + 2;
+        return client.getHappiness() + effect;
     }
 
     @Override

@@ -12,10 +12,10 @@ public class App {
 
         //just tests
         Client client1 = new Client("Balazs", 100);
-        Order order1 = new Order("chips", new LinkedList<>(Arrays.asList("ketchup", "mustard")), client1);
+        Order order1 = new Order("hotdog", new LinkedList<>(Arrays.asList("ketchup")), client1);
 
         Client client2 = new Client("Peter", 200);
-        Order order2 = new Order("hotdog", new LinkedList<>(Arrays.asList("ketchup")), client2);
+        Order order2 = new Order("chips", new LinkedList<>(Arrays.asList("mustard")), client2);
 
         CookRobot robot = new CookRobot();
         robot.addOrder(client1, order1);

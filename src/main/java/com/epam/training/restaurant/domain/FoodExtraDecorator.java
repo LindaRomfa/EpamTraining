@@ -2,15 +2,7 @@ package com.epam.training.restaurant.domain;
 
 public abstract class FoodExtraDecorator implements Food{
 
-    private Food food;
-
-    public double getEffect() {
-        return food.getEffect();
-    }
-
-    public void setEffect(double effect){
-        food.setEffect(effect);
-    }
+    protected Food food;
 
     public FoodExtraDecorator(Food food){
         this.food = food;

@@ -9,18 +9,7 @@ public class Mustard extends FoodExtraDecorator {
     }
 
     @Override
-    public double getEffect() {
-        return super.getEffect();
-    }
-
-    @Override
-    public void setEffect(double effect) {
-        super.setEffect(getEffect()*effect);
-    }
-
-    @Override
     public double calculateHappiness(Client client) {
-        setEffect(0);
         return super.calculateHappiness(client) + effect;
     }
 

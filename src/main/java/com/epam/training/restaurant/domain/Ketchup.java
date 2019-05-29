@@ -2,7 +2,9 @@ package com.epam.training.restaurant.domain;
 
 public class Ketchup extends FoodExtraDecorator {
 
-    private double effect = 2;
+    private static final double KETCHUPEFFECT = 2;
+    private static double chipsEffect = 5;
+    private static double hotdogEffect = 2;
 
 
     public Ketchup(Food food) {
@@ -10,20 +12,23 @@ public class Ketchup extends FoodExtraDecorator {
     }
 
     @Override
-    public double getEffect() {
-        return super.getEffect();
-    }
-
-    @Override
-    public void setEffect(double effect) {
-        super.setEffect(getEffect()*effect);
-    }
-
-    @Override
     public double calculateHappiness(Client client) {
-        setEffect(effect);
+
+        hotdogEffect *= KETCHUPEFFECT;
+        chipsEffect *= KETCHUPEFFECT;
+
+        if (super.food instanceof Hotdog) {
+            return super.calculateHappiness(client) + hotdogEffect;
+        } else if (super.food instanceof Chips) {
+            return super.calculateHappiness(client) * percentage(chipsEffect);
+        }
         return super.calculateHappiness(client);
     }
+
+    private double percentage(double effect) {
+        return (100 + effect) / 100;
+    }
+
 
     public String toString() {
         return super.toString() + " extra = KETCHUP ";

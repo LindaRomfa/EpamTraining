@@ -5,7 +5,7 @@ public class Chips implements Food{
 
     @Override
     public double calculateHappiness(Client client) {
-        return client.getHappiness();
+        return client.getHappiness()*1.05;
     }
 
     @Override

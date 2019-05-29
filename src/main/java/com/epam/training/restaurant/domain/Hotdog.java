@@ -4,7 +4,7 @@ public class Hotdog implements Food {
 
     @Override
     public double calculateHappiness(Client client) {
-        return client.getHappiness();
+        return client.getHappiness()+2;
     }
 
     @Override

@@ -16,12 +16,12 @@ public class Ketchup extends FoodExtraDecorator {
 
         if (super.food instanceof Hotdog) {
             hotdogEffect *= KETCHUPEFFECT;
-            return super.calculateHappiness(client) + hotdogEffect;
+            return client.getHappiness() + hotdogEffect;
         } else if (super.food instanceof Chips) {
             chipsEffect *= KETCHUPEFFECT;
-            return super.calculateHappiness(client) * percentage(chipsEffect);
+            return client.getHappiness() * percentage(chipsEffect);
         }
-        return super.calculateHappiness(client);
+        return client.getHappiness();
 
     }
 

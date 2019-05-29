@@ -9,9 +9,7 @@ public abstract class FoodExtraDecorator implements Food{
     }
 
     @Override
-    public double calculateHappiness(Client client) {
-        return this.food.calculateHappiness(client);
-    }
+    public abstract double calculateHappiness(Client client);
 
     @Override
     public String toString() {

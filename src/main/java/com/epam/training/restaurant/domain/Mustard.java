@@ -10,7 +10,7 @@ public class Mustard extends FoodExtraDecorator {
 
     @Override
     public double calculateHappiness(Client client) {
-        return super.calculateHappiness(client) + effect;
+        return client.getHappiness() + effect;
     }
 
     public String toString() {

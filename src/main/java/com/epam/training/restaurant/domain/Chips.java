@@ -1,6 +1,6 @@
 package com.epam.training.restaurant.domain;
 
-public class Chips implements Food{
+public class Chips extends AbsFood implements Food{
 
     private double effect = 5;
 

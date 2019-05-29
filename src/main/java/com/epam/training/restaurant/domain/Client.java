@@ -15,8 +15,8 @@ public class Client implements Observer {
         return happiness;
     }
 
-    public void consume(Food food) {
-        this.happiness = food.calculateHappiness(this);
+    public void consume(AbsFood food) {
+        this.happiness = food.calculateHappiness(this.happiness);
         System.out.println("Client: Csam csam nyam nyam");
     }
 
@@ -30,7 +30,7 @@ public class Client implements Observer {
     }
 
     @Override
-    public void update(Food food) {
+    public void update(AbsFood food) {
         System.out.format("Client: Starting to eat food, client: %s, food: %s\n", this, food);
         this.consume(food);
         System.out.println("Client: Food eaten, client: " + this);

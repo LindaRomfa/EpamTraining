@@ -1,5 +1,6 @@
 package com.epam.training.restaurant.robot;
 
+import com.epam.training.restaurant.domain.AbsFood;
 import com.epam.training.restaurant.domain.Client;
 import com.epam.training.restaurant.domain.Food;
 import com.epam.training.restaurant.domain.Order;
@@ -20,7 +21,7 @@ public class CookRobot {
         System.out.format("CookRobot: Processing %d order(s)...\n", orders.size());
 
         for (Order order : orders) {
-            Food food = FoodFactory.createFood(order);
+            AbsFood food = FoodFactory.createFood(order);
             order.notifyObserver(food);
         }
         System.out.println("CookRobot: Order processed");

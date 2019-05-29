@@ -4,6 +4,9 @@ public abstract class FoodExtraDecorator implements Food{
 
     private Food food;
 
+    public FoodExtraDecorator() {
+    }
+
     public double getEffect() {
         return food.getEffect();
     }

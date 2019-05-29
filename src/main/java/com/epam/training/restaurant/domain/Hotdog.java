@@ -1,8 +1,11 @@
 package com.epam.training.restaurant.domain;
 
-public class Hotdog implements Food {
+public class Hotdog extends AbsFood implements Food {
 
     private double effect = 2;
+
+    public Hotdog() {
+    }
 
     public double getEffect() {
         return effect;

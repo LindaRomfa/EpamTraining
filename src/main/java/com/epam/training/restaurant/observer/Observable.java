@@ -1,5 +1,6 @@
 package com.epam.training.restaurant.observer;
 
+import com.epam.training.restaurant.domain.AbsFood;
 import com.epam.training.restaurant.domain.Food;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public abstract class Observable {
         return observers.add(observer);
     }
 
-    public void notifyObserver(Food food) {
+    public void notifyObserver(AbsFood food) {
         System.out.println("Order: Notifying observers of " + food);
         for (Observer observer : observers) {
             observer.update(food);

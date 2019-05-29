@@ -14,15 +14,15 @@ public class Ketchup extends FoodExtraDecorator {
     @Override
     public double calculateHappiness(Client client) {
 
-        hotdogEffect *= KETCHUPEFFECT;
-        chipsEffect *= KETCHUPEFFECT;
-
         if (super.food instanceof Hotdog) {
+            hotdogEffect *= KETCHUPEFFECT;
             return super.calculateHappiness(client) + hotdogEffect;
         } else if (super.food instanceof Chips) {
+            chipsEffect *= KETCHUPEFFECT;
             return super.calculateHappiness(client) * percentage(chipsEffect);
         }
         return super.calculateHappiness(client);
+
     }
 
     private double percentage(double effect) {

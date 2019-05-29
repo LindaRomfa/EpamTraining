@@ -2,9 +2,11 @@ package com.epam.training.restaurant.domain;
 
 public class Hotdog implements Food {
 
+    protected static final double HOTDOGEFFECT = 2;
+
     @Override
     public double calculateHappiness(Client client) {
-        return client.getHappiness()+2;
+        return client.getHappiness()+HOTDOGEFFECT;
     }
 
     @Override

@@ -3,8 +3,6 @@ package com.epam.training.restaurant.domain;
 public class Ketchup extends FoodExtraDecorator {
 
     private static final double KETCHUPEFFECT = 2;
-    private static double chipsEffect = 5;
-    private static double hotdogEffect = 2;
 
 
     public Ketchup(Food food) {
@@ -15,11 +13,9 @@ public class Ketchup extends FoodExtraDecorator {
     public double calculateHappiness(Client client) {
 
         if (super.food instanceof Hotdog) {
-            hotdogEffect *= KETCHUPEFFECT;
-            return client.getHappiness() + hotdogEffect;
+            return client.getHappiness() + Hotdog.HOTDOGEFFECT*KETCHUPEFFECT;
         } else if (super.food instanceof Chips) {
-            chipsEffect *= KETCHUPEFFECT;
-            return client.getHappiness() * percentage(chipsEffect);
+            return client.getHappiness() * percentage(Chips.CHIPSEFFECT*KETCHUPEFFECT);
         }
         return client.getHappiness();
 

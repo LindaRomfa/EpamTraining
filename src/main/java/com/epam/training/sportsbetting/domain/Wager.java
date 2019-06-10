@@ -12,11 +12,15 @@ public class Wager {
     private Player player;
     private Currency currency;
 
-    public Wager(BigDecimal amount, LocalDateTime timestampCreated, boolean processed, boolean win) {
+    public Wager(BigDecimal amount, LocalDateTime timestampCreated, boolean processed,
+                 boolean win, Currency currency, Player player, OutcomeOdd odd) {
         this.amount = amount;
         this.timestampCreated = timestampCreated;
         this.processed = processed;
         this.win = win;
+        this.currency = currency;
+        this.player = player;
+        this.odd = odd;
     }
 
     public BigDecimal getAmount() {
@@ -43,9 +47,24 @@ public class Wager {
         this.win = win;
     }
 
-    public void creatWagerData(Currency currency,Player player,OutcomeOdd odd){
-        this.currency = currency;
-        this.player = player;
-        this.odd = odd;
+    public void setTimestampCreated(LocalDateTime timestampCreated) {
+        this.timestampCreated = timestampCreated;
+    }
+
+    public LocalDateTime getTimestampCreated() {
+        return timestampCreated;
+    }
+
+    @Override
+    public String toString() {
+        return "Wager{" +
+                "amount=" + amount +
+                ", timestampCreated=" + timestampCreated +
+                ", processed=" + processed +
+                ", win=" + win +
+                ", odd=" + odd +
+                ", player=" + player +
+                ", currency=" + currency +
+                '}';
     }
 }

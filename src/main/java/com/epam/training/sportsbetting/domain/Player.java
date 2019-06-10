@@ -10,7 +10,8 @@ public class Player extends User{
     private LocalDate birth;
     private Currency currency;
 
-    public Player(String email, String password, String name, Integer accountNumber, BigDecimal balance, LocalDate birth, Currency currency) {
+    public Player(String email, String password, String name, Integer accountNumber,
+                  BigDecimal balance, LocalDate birth, Currency currency) {
         super(email, password);
         this.name = name;
         this.accountNumber = accountNumber;
@@ -19,13 +20,7 @@ public class Player extends User{
         this.currency = currency;
     }
 
-    public Player(String email, String password, String name, Integer accountNumber, BigDecimal balance, LocalDate birth) {
-        super(email, password);
-        this.name = name;
-        this.accountNumber = accountNumber;
-        this.balance = balance;
-        this.birth = birth;
-    }
+    public Player() {}
 
     public void setName(String name) {
         this.name = name;
@@ -68,6 +63,7 @@ public class Player extends User{
     }
 
     public String toString(){
-        return getEmail() + ", " + getPassword() + ", " + getName() + ", " + getAccountNumber() + ", " + getBalance() + ", " + getBirth();
+        return getEmail() + ", " + getPassword() + ", " + getName() + ", " + getAccountNumber() +
+                ", " + getBalance() + ", " + getBirth();
     }
 }

@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,27 +39,70 @@ public class ViewImplement implements View {
         String name = input.getInput();
 
         System.out.println("Account number:");
-        String accountNumber = input.getInput();
+        int accountNumber;
+        do{
+            accountNumber = addAccountNumber(input.getInput());
+        }while(accountNumber == 0);
+
 
         System.out.println("Birthday: [yyyy.MM.dd]");
-        LocalDate birth = addBirth();
+        LocalDate localDateBirth;
+        do{
+            localDateBirth = addBirth(input.getInput());
+        }while(localDateBirth == null);
 
         System.out.println("How much money do you have? (more than 0)");
-        int balance = addBalance();
+        int balance;
+        do{
+            balance = addBalance(input.getInput());
+        }while (balance == 0);
 
         System.out.println("What is your currency? (HUF, EUR or USD)");
-        Currency currency = addCurrency();
+        Currency currency;
+        do{
+            currency = addCurrency(input.getInput());
+        }while (currency == null);
 
         System.out.println("Thank you! :)");
 
         //builder test
-        return new PlayerBuilder().setName(name).setAccountNumber(Integer.parseInt(accountNumber)).setBalance(new BigDecimal(balance))
-                .setEmail(email).setPassword(password).setBirth(birth).setCurrency(currency).builder();
+        return new PlayerBuilder().setName(name).setAccountNumber(accountNumber).setBalance(new BigDecimal(balance))
+                .setEmail(email).setPassword(password).setBirth(localDateBirth).setCurrency(currency).builder();
     }
 
-    public Currency addCurrency() {
-        do {
-            String currency = input.getInput();
+    private int addAccountNumber(String input) {
+        int accountNumber;
+        try {
+            accountNumber = Integer.parseInt(input);
+        }catch (Exception e){
+            System.out.println("This is not a number, please try again!");
+            accountNumber = 0;
+        }
+        return accountNumber;
+    }
+
+    private int addBalance(String input) {
+        int balance = Integer.parseInt(input);
+        if(balance <= 0){
+            System.out.println("Too small number, please try again!");
+            balance = 0;
+        }
+        return balance;
+    }
+
+    private LocalDate addBirth(String input){
+        LocalDate date = null;
+        try{
+            date = LocalDate.parse(input, LOCAL_DATE_FORMATTER);
+        }catch (Exception e){
+            System.out.println("Wrong format, please try again!");
+        }
+        return date;
+    }
+
+    private Currency addCurrency(String input) {
+
+            String currency = input;
             if (currency.equals("HUF")) {
                 return Currency.HUF;
             } else if (currency.equals("EUR")) {
@@ -69,29 +111,8 @@ public class ViewImplement implements View {
                 return Currency.USD;
             } else {
                 System.out.println("Invalid currency, please try again!");
+                return null;
             }
-        } while (true);
-    }
-
-    public int addBalance() {
-        do {
-            int balance = Integer.parseInt(input.getInput());
-            if (balance <= 0) {
-                System.out.println("Too small number, please try again!");
-            } else {
-                return balance;
-            }
-        } while (true);
-    }
-
-    public LocalDate addBirth() {
-        do {
-            try {
-                return LocalDate.parse(input.getInput(), LOCAL_DATE_FORMATTER);
-            } catch (DateTimeParseException e) {
-                System.out.println("Wrong format, please try again!");
-            }
-        } while (true);
     }
 
     @Override
@@ -121,11 +142,6 @@ public class ViewImplement implements View {
     }
 
     @Override
-    public OutcomeOdd selectOutcomeOdd(List<OutcomeOdd> odds) {
-        return null;
-    }
-
-    @Override
     public List<Wager> creatWagers(Player player, List<OutcomeOdd> odds) {
         List<Wager> wagers = new ArrayList<>();
         String chooseNumber;
@@ -147,7 +163,7 @@ public class ViewImplement implements View {
         } while (true);
     }
 
-    public Wager addWager(Player player, List<OutcomeOdd> odds,int ChooseNumber){
+    private Wager addWager(Player player, List<OutcomeOdd> odds,int ChooseNumber){
         BigDecimal amount = readWagerAmount(player);
         Wager wager = new Wager(amount, LocalDateTime.now(), false, false,
                 player.getCurrency(), player, odds.get(ChooseNumber - 1));

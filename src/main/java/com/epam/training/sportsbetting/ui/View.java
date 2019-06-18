@@ -13,7 +13,6 @@ public interface View {
     void printWelcomeMessage(Player player);
     void printBalance(Player player);
     void printOutcomeOdds(List<OutcomeOdd> odds);
-    OutcomeOdd selectOutcomeOdd(List<OutcomeOdd> odds);
     BigDecimal readWagerAmount(Player player);
     void printWagerSaved(Wager wager);
     void printNotEnoughBalance(Player player);

@@ -24,7 +24,7 @@ public class AppTest {
             "Jakab Gipsz",12345678,new BigDecimal(1000),
             LocalDate.parse("1997.03.02", LOCAL_DATE_FORMATTER), Currency.HUF);
 
-    App underTest;
+    private App underTest;
 
     @Mock
     View view;

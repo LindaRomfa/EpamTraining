@@ -1,4 +1,4 @@
-package com.epam.training.sportsbetting;
+package com.epam.training.sportsbetting.service;
 
 import com.epam.training.sportsbetting.builder.BetBuilder;
 import com.epam.training.sportsbetting.builder.OutcomeBuilder;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TestData {
+public class GameData {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final DateTimeFormatter LOCAL_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd");
     private List<SportEvent> sportEvents = new ArrayList<>();
@@ -23,48 +23,16 @@ public class TestData {
     private List<Player> players = new ArrayList<>();
     private Result result = new Result();
 
-    public TestData(){
+    public GameData(){
         creatTestData();
-    }
-
-    public List<SportEvent> getSportEvents() {
-        return sportEvents;
-    }
-
-    public void setSportEvents(List<SportEvent> sportEvents) {
-        this.sportEvents = sportEvents;
-    }
-
-    public List<Bet> getBets() {
-        return bets;
-    }
-
-    public void setBets(List<Bet> bets) {
-        this.bets = bets;
-    }
-
-    public List<Outcome> getOutcomes() {
-        return outcomes;
-    }
-
-    public void setOutcomes(List<Outcome> outcomes) {
-        this.outcomes = outcomes;
     }
 
     public List<OutcomeOdd> getOdds() {
         return odds;
     }
 
-    public void setOdds(List<OutcomeOdd> odds) {
-        this.odds = odds;
-    }
-
     public List<Player> getPlayers() {
         return players;
-    }
-
-    public void setPlayers(List<Player> players) {
-        this.players = players;
     }
 
     public Result getResult() {
@@ -81,14 +49,14 @@ public class TestData {
         creatTestPlayer();
     }
 
-    public void creatTestPlayer() {
+    private void creatTestPlayer() {
         players.add(new Player("jakapbgipsz@gmail.com", "pass1234", "Jakab Gipsz",
                 12345678, new BigDecimal(1000), LocalDate.parse("1920.12.04", LOCAL_DATE_FORMATTER), Currency.HUF));
         players.add(new Player("farkasbalazs@gmail.com", "pass5678", "Farkas Balazs",
                 87654321, new BigDecimal(200), LocalDate.parse("1996.10.02", LOCAL_DATE_FORMATTER), Currency.EUR));
     }
 
-    public void creatTestBet() {
+    private void creatTestBet() {
 
         LocalDateTime startDate = LocalDateTime.parse("2000-01-01 12:00:00", DATE_TIME_FORMATTER);
         LocalDateTime endDate = LocalDateTime.parse("2020-12-12 12:00:00", DATE_TIME_FORMATTER);
@@ -137,7 +105,7 @@ public class TestData {
         odds.addAll(Arrays.asList(arsenalOdd, chelseaOdd, oneOdd, threeOdd));
     }
 
-    public void creatTestSportEvent() {
+    private void creatTestSportEvent() {
 
         LocalDateTime startDate = LocalDateTime.parse("2020-12-12 12:00:00", DATE_TIME_FORMATTER);
         LocalDateTime endDate = LocalDateTime.parse("2020-12-12 16:00:00", DATE_TIME_FORMATTER);

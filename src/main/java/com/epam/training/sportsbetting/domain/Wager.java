@@ -23,6 +23,14 @@ public class Wager {
         this.odd = odd;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }

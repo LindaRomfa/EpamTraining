@@ -1,6 +1,6 @@
 package com.epam.training.sportsbettingJunit;
 
-import com.epam.training.sportsbetting.TestData;
+import com.epam.training.sportsbetting.service.GameData;
 import com.epam.training.sportsbetting.domain.Currency;
 import com.epam.training.sportsbetting.domain.Player;
 import com.epam.training.sportsbetting.service.SportsBettingImplement;
@@ -23,7 +23,7 @@ public class SportsBettingServiceTest {
             , "Jakab Gipsz", 12345678, new BigDecimal(1000)
             , LocalDate.parse("1920.12.04", LOCAL_DATE_FORMATTER), Currency.HUF);
 
-    private static final TestData TEST_DATA = new TestData();
+    private static final GameData TEST_DATA = new GameData();
 
     private static final Player TEST_FIND_PLAYER = TEST_DATA.getPlayers().get(0);
 
@@ -36,8 +36,7 @@ public class SportsBettingServiceTest {
     public void setUp(){
         MockitoAnnotations.initMocks(this);
 
-        underTest = new SportsBettingImplement(input);
-        underTest.setDatas(TEST_DATA);
+        underTest = new SportsBettingImplement(input,TEST_DATA);
     }
 
     @Test
@@ -53,11 +52,10 @@ public class SportsBettingServiceTest {
     @Test
     public void findPlayerTestShouldReturnPlayerWhenWrongNameAfterCorrectName(){
         //GIVEN
-        BDDMockito.given(input.getInput()).willReturn("Valami Mas").willReturn("pass1234")
-                .willReturn("Jakab Gipsz").willReturn("pass1234");
+        BDDMockito.given(input.getInput()).willReturn("Valami Mas").willReturn("pass1234");
         //WHEN
         Player result = underTest.findPlayer();
         //THEN
-        Assert.assertEquals(TEST_FIND_PLAYER,result);
+        Assert.assertEquals(null,result);
     }
 }

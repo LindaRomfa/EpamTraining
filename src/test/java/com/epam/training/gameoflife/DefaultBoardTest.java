@@ -54,6 +54,20 @@ public class DefaultBoardTest {
         Assert.assertFalse(result);
 
     }
+    @Test
+    public void isAliveTestShouldReturnFalseWhenTooMuchNeighbor(){
+        //GIVEN
+        coordinateList_test.add(new Coordinate(1,1));
+        coordinateList_test.add(new Coordinate(0,0));
+        coordinateList_test.add(new Coordinate(1,0));
+        coordinateList_test.add(new Coordinate(2,0));
+        coordinateList_test.add(new Coordinate(0,1));
+        //WHEN
+        Boolean result = underTest.isAlive(COORDINATE_TEST);
+        //THEN
+        Assert.assertFalse(result);
+
+    }
 
 
 }

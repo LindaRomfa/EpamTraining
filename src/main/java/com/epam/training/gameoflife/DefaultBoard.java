@@ -35,6 +35,9 @@ public class DefaultBoard implements Board {
             if (neighbor == 2 || neighbor == 3) {
                 return true;
             }
+            if(neighbor < 2){
+                return false;
+            }
             return true;
         }
 

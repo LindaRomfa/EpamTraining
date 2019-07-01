@@ -43,5 +43,17 @@ public class DefaultBoardTest {
         Assert.assertTrue(result);
     }
 
+    @Test
+    public void isAliveTestShouldReturnFalseWhenNotEnoughNeighbor(){
+        //GIVEN
+        coordinateList_test.add(new Coordinate(1,1));
+        coordinateList_test.add(new Coordinate(0,1));
+        //WHEN
+        Boolean result = underTest.isAlive(COORDINATE_TEST);
+        //THEN
+        Assert.assertFalse(result);
+
+    }
+
 
 }

@@ -1,12 +1,8 @@
 package com.epam.training.gameoflife;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.BDDMockito;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +27,21 @@ public class DefaultBoardTest {
         coordinateList_test.add(new Coordinate(1,1));
         //WHEN
         Boolean result = underTest.isAlive(COORDINATE_TEST);
-        System.out.println(result);
         //THEN
         Assert.assertTrue(result);
     }
+
+    @Test
+    public void isAliveTestShouldReturnTrueWhenHaveTwoOrThreeNeighbor(){
+        //GIVEN
+        coordinateList_test.add(new Coordinate(1,1));
+        coordinateList_test.add(new Coordinate(0,1));
+        coordinateList_test.add(new Coordinate(1,0));
+        //WHEN
+        Boolean result = underTest.isAlive(COORDINATE_TEST);
+        //THEN
+        Assert.assertTrue(result);
+    }
+
 
 }

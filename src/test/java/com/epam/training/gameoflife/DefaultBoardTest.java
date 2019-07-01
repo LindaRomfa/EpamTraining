@@ -17,20 +17,21 @@ public class DefaultBoardTest {
 
     private Board underTest;
 
-    @Mock
     private List<Coordinate> coordinateList_test;
 
     @Before
     public void setUp(){
-        MockitoAnnotations.initMocks(this);
+        coordinateList_test = new ArrayList<>();
         underTest = new DefaultBoard(coordinateList_test);
     }
 
     @Test
-    public void isAliveTestShouldTrueIfNotListedInTheCoordinatesList(){
+    public void isAliveTestShouldTrueIfListedInTheCoordinatesList(){
         //GIVEN
+        coordinateList_test.add(new Coordinate(1,1));
         //WHEN
         Boolean result = underTest.isAlive(COORDINATE_TEST);
+        System.out.println(result);
         //THEN
         Assert.assertTrue(result);
     }

@@ -18,15 +18,23 @@ public class DefaultBoard implements Board {
 
     @Override
     public Board getNextGenerationBoard() {
-        return null;
+        return new DefaultBoard(coordinates);
     }
 
     @Override
     public void insertCell(Coordinate coordinate) {
+        if (!coordinates.contains(coordinate)) {
+            coordinates.add(coordinate);
+            this.isAlive(coordinate);
+        }
     }
 
     @Override
     public boolean isAlive(Coordinate coordinate) {
+            if (coordinates.contains(coordinate)) {
+                return true;
+            }
+
         return false;
     }
 }

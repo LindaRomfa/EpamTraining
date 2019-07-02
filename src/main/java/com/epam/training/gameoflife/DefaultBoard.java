@@ -7,18 +7,21 @@ import java.util.List;
 public class DefaultBoard implements Board {
 
     public List<Coordinate> coordinates = new ArrayList<>();
+    public boolean insert;
 
     public DefaultBoard() {
-
+        insert = true;
     }
 
-    public DefaultBoard(List<Coordinate> coordinates) {
+    public DefaultBoard(List<Coordinate> coordinates, boolean insert) {
         this.coordinates = coordinates;
+        this.insert = insert;
     }
 
     @Override
     public Board getNextGenerationBoard() {
-        return new DefaultBoard(coordinates);
+        insert = false;
+        return new DefaultBoard(coordinates, insert);
     }
 
     @Override
@@ -32,13 +35,23 @@ public class DefaultBoard implements Board {
     public boolean isAlive(Coordinate coordinate) {
         int neighbor = neighborCounter(coordinate);
         if (coordinates.contains(coordinate)) {
-            if (neighbor == 2 || neighbor == 3) {
-                return true;
-            }
-            if(neighbor < 2){
-                return false;
+            if (!insert) {
+                if (neighbor == 2 || neighbor == 3) {
+                    return true;
+                }
+                else {
+                    coordinates.remove(coordinate);
+                    return false;
+                }
             }
             return true;
+        }
+        if (!coordinates.contains(coordinate)  && !insert) {
+            if (neighbor == 3) {
+                coordinates.add(coordinate);
+                return true;
+            }
+            return false;
         }
 
 
@@ -68,11 +81,15 @@ public class DefaultBoard implements Board {
 
     private int positionYCounter(Coordinate coordinate1, Coordinate coordinate) {
         int counter = 0;
+
         counter = counter + positionYMinusOne(coordinate1, coordinate);
+
         if (coordinate1.getPositionY() == (coordinate.getPositionY())) {
             counter++;
         }
+
         counter = counter + positionYPlusOne(coordinate1, coordinate);
+
         return counter;
     }
 

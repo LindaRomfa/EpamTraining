@@ -6,8 +6,9 @@ import java.util.List;
 
 public class DefaultBoard implements Board {
 
-    public List<Coordinate> coordinates = new ArrayList<>();
-    public boolean insert;
+    private List<Coordinate> coordinates = new ArrayList<>();
+    private List<Coordinate> changedCoordinates = new ArrayList<>();
+    private boolean insert;
 
     public DefaultBoard() {
         insert = true;
@@ -20,14 +21,17 @@ public class DefaultBoard implements Board {
 
     @Override
     public Board getNextGenerationBoard() {
-        insert = false;
-        return new DefaultBoard(coordinates, insert);
+        if (insert) {
+            changedCoordinates = coordinates;
+        }
+        return new DefaultBoard(changedCoordinates, false);
     }
 
     @Override
     public void insertCell(Coordinate coordinate) {
         if (!coordinates.contains(coordinate)) {
             coordinates.add(coordinate);
+            changedCoordinates.add(coordinate);
         }
     }
 
@@ -37,24 +41,27 @@ public class DefaultBoard implements Board {
         if (coordinates.contains(coordinate)) {
             if (!insert) {
                 if (neighbor == 2 || neighbor == 3) {
+                    if (!changedCoordinates.contains(coordinate)) {
+                        changedCoordinates.add(coordinate);
+                    }
                     return true;
-                }
-                else {
-                    coordinates.remove(coordinate);
+                } else {
+                    changedCoordinates.remove(coordinate);
                     return false;
                 }
             }
             return true;
         }
-        if (!coordinates.contains(coordinate)  && !insert) {
-            if (neighbor == 3) {
-                coordinates.add(coordinate);
-                return true;
+        if (!coordinates.contains(coordinate)) {
+            if (!insert) {
+                if (neighbor == 3) {
+                    if (!changedCoordinates.contains(coordinate)) {
+                        changedCoordinates.add(coordinate);
+                    }
+                    return true;
+                }
             }
-            return false;
         }
-
-
         return false;
     }
 

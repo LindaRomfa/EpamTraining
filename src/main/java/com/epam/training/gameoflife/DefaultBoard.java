@@ -38,31 +38,24 @@ public class DefaultBoard implements Board {
     @Override
     public boolean isAlive(Coordinate coordinate) {
         int neighbor = neighborCounter(coordinate);
-        if (coordinates.contains(coordinate)) {
-            if (!insert) {
-                if (neighbor == 2 || neighbor == 3) {
-                    if (!changedCoordinates.contains(coordinate)) {
-                        changedCoordinates.add(coordinate);
-                    }
-                    return true;
-                } else {
-                    changedCoordinates.remove(coordinate);
-                    return false;
-                }
-            }
+        if (coordinates.contains(coordinate) && insert) {
             return true;
         }
-        if (!coordinates.contains(coordinate)) {
-            if (!insert) {
-                if (neighbor == 3) {
-                    if (!changedCoordinates.contains(coordinate)) {
-                        changedCoordinates.add(coordinate);
-                    }
-                    return true;
-                }
+        if (coordinates.contains(coordinate)) {
+            if ((neighbor == 2 || neighbor == 3) && (!changedCoordinates.contains(coordinate))) {
+                changedCoordinates.add(coordinate);
+                return true;
+            } else {
+                changedCoordinates.remove(coordinate);
+                return false;
             }
+        } else {
+            if (!insert && neighbor == 3 && !changedCoordinates.contains(coordinate)) {
+                changedCoordinates.add(coordinate);
+                return true;
+            }
+            return false;
         }
-        return false;
     }
 
     private int neighborCounter(Coordinate coordinate) {
